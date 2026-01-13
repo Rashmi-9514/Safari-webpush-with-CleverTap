@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Inbox </title>
+    <title>Web Inbox</title>
+
     <script type="text/javascript">
         var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
+
         clevertap.account.push({ "id": "886-85W-7Z7Z" });
-        // clevertap.account.push({ "id": "TEST-K74-965-WK6Z" });
         clevertap.privacy.push({ optOut: false });
         clevertap.privacy.push({ useIP: true });
 
@@ -15,11 +16,14 @@
             var wzrk = document.createElement('script');
             wzrk.type = 'text/javascript';
             wzrk.async = true;
-            wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';
+            wzrk.src = ('https:' == document.location.protocol ?
+                'https://d2r1yp2w7bby2u.cloudfront.net' :
+                'http://static.clevertap.com') + '/js/clevertap.min.js';
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(wzrk, s);
         })();
     </script>
+
     <script>
         clevertap.event.push('Page Viewed', {
             "Page Name": document.title,
@@ -86,8 +90,21 @@
             var img = document.querySelector(`#${bannerId} img`);
             var index = parseInt(bannerId.split("-")[2]) - 1;
             img.src = images[index];
-            
-            clevertap.event.push(button.textContent + ' Clicked', { "Banner Number": bannerId.split("-")[2] });
+
+            // Track button click event
+            clevertap.event.push(button.textContent + ' Clicked', {
+                "Banner Number": bannerId.split("-")[2]
+            });
+
+            // 🔔 Show push notification permission popup
+            clevertap.notifications.push({
+                "titleText": "Would you like to receive Push Notifications?",
+                "bodyText": "We promise to only send you relevant content and give you updates on your transactions",
+                "okButtonText": "Sign me up!",
+                "rejectButtonText": "No thanks",
+                "okButtonColor": "#F28046",
+                "askAgainTimeInSeconds": 5
+            });
 
             button.classList.add('clicked');
             setTimeout(function () {
@@ -101,6 +118,7 @@
             "https://cdn.pixabay.com/photo/2023/07/21/16/06/ai-generated-8141887_640.jpg"
         ];
     </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -231,6 +249,7 @@
     </style>
 </head>
 <body>
+
     <div class="notification-container">
         <button class="notification-bell" id="notificationBell">
             🔔
@@ -238,13 +257,12 @@
         </button>
         <div class="notification-panel" id="notificationPanel">
             <h3>Notifications</h3>
-            <ul id="notificationList">
-                <!-- Notifications will be dynamically inserted here -->
-            </ul>
+            <ul id="notificationList"></ul>
         </div>
     </div>
 
     <h1>Web Inbox Display</h1>
+
     <div class="banner">
         <img class="big-banner" src="https://1.bp.blogspot.com/-kK7Fxm7U9o0/YN0bSIwSLvI/AAAAAAAACFk/aF4EI7XU_ashruTzTIpifBfNzb4thUivACLcBGAsYHQ/s1280/222.jpg" alt="Scenic Banner Image">
     </div>
@@ -258,14 +276,16 @@
                 <button>Custom</button>
             </div>
         </div>
+
         <div class="small-banner" id="small-banner-2">
-            <img src="https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Small Banner 2">
+            <img src="https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg" alt="Small Banner 2">
             <div class="button-container">
                 <button>Banner</button>
                 <button>Carousel</button>
                 <button>Custom</button>
             </div>
         </div>
+
         <div class="small-banner" id="small-banner-3">
             <img src="https://cdn.pixabay.com/photo/2023/07/21/16/06/ai-generated-8141887_640.jpg" alt="Small Banner 3">
             <div class="button-container">
@@ -275,5 +295,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>
