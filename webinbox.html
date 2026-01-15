@@ -247,9 +247,20 @@
             text-align: center;
         }
 
-        /* Hide CleverTap bell icon */
-        #bell_icon {
+        /* Hide CleverTap bell icons and branding */
+        #bell_icon,
+        img[id*="bell"],
+        img[src*="bell"],
+        img[src*="clevertap"],
+        .ctBellIcon,
+        [class*="bell-icon"],
+        [id*="ct-web-personalization"] img,
+        div[style*="background"] img[src*="data:image/svg"] {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
         }
     </style>
 </head>
