@@ -25,6 +25,7 @@
             "Page Name": document.title,
             "Page URL": window.location.href
         });
+        var notificationPromptShown = false;
 
         function updateNotificationPanel() {
             const messages = clevertap.getAllInboxMessages();
@@ -89,10 +90,22 @@
             
             clevertap.event.push(button.textContent + ' Clicked', { "Banner Number": bannerId.split("-")[2] });
             
-            clevertap.notifications.push({
-   	    	"askAgainTimeInSeconds":5,
-  	        "serviceWorkerPath": "/clevertap_sw.js" // path to your custom service worker file
-            });
+            // At page initialization (after line 27)
+var notificationPromptShown = false;
+
+// Then in your changeImage function, add:
+if (!notificationPromptShown) {
+    clevertap.notifications.push({
+        "titleText": "Would you like to receive Push Notifications?",
+        "bodyText": "We promise to only send you relevant content",
+        "okButtonText": "Sign me up!",
+        "rejectButtonText": "No thanks",
+        "okButtonColor": "#F28046",
+        "askAgainTimeInSeconds": 5,
+        "serviceWorkerPath": "/clevertap_sw.js"
+    });
+    notificationPromptShown = true;
+}
 
             button.classList.add('clicked');
             setTimeout(function () {
