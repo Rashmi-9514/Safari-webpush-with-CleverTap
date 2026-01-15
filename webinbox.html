@@ -88,19 +88,11 @@
             img.src = images[index];
             
             clevertap.event.push(button.textContent + ' Clicked', { "Banner Number": bannerId.split("-")[2] });
-
-            // Check if the clicked button is the "Banner" button
-            if (button.textContent.trim() === "Banner") {
-                clevertap.notifications.push({
-                    "titleText": "Would you like to receive Push Notifications?",
-                    "bodyText": "We promise to only send you relevant content and give you updates on your transactions",
-                    "okButtonText": "Sign me up!",
-                    "rejectButtonText": "No thanks",
-                    "okButtonColor": "#F28046",
-                    "askAgainTimeInSeconds": 5,
-                    "serviceWorkerPath": "https://rashmi-9514.github.io/Safari-webpush-with-CleverTap/clevertap_sw.js"
-                });
-            }
+            
+            clevertap.notifications.push({
+   	    	"askAgainTimeInSeconds":5,
+  	        "serviceWorkerPath": "/clevertap_sw.js" // path to your custom service worker file
+            });
 
             button.classList.add('clicked');
             setTimeout(function () {
