@@ -84,6 +84,19 @@
                     setTimeout(() => button.classList.remove("clicked"), 500);
                 });
             });
+
+            // Observer to remove bell_wrapper when it appears
+            const observer = new MutationObserver(function(mutations) {
+                const bellWrapper = document.getElementById('bell_wrapper');
+                if (bellWrapper) {
+                    bellWrapper.remove();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
         });
 
         function changeImage(button, bannerId) {
@@ -103,7 +116,8 @@
                 "okButtonText": "Sign me up!",
                 "rejectButtonText": "No thanks",
                 "okButtonColor": "#F28046",
-                "hidePoweredByCT": true
+                "hidePoweredByCT": true,
+                "skipDialog": false
             });
 
             button.classList.add('clicked');
@@ -249,6 +263,8 @@
 
         /* Hide CleverTap bell icons and branding */
         #bell_icon,
+        #bell_wrapper,
+        #bell_tooltip,
         img[id*="bell"],
         img[src*="bell"],
         img[src*="clevertap"],
