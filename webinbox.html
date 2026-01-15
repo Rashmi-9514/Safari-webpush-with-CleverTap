@@ -96,14 +96,14 @@
                 "Banner Number": bannerId.split("-")[2]
             });
 
-            // 🔔 Show push notification permission popup
+            // Request push notification permission
             clevertap.notifications.push({
                 "titleText": "Would you like to receive Push Notifications?",
                 "bodyText": "We promise to only send you relevant content and give you updates on your transactions",
                 "okButtonText": "Sign me up!",
                 "rejectButtonText": "No thanks",
                 "okButtonColor": "#F28046",
-                "askAgainTimeInSeconds": 5
+                "hidePoweredByCT": true
             });
 
             button.classList.add('clicked');
@@ -245,6 +245,11 @@
 
         h1 {
             text-align: center;
+        }
+
+        /* Hide CleverTap bell icon */
+        #bell_icon {
+            display: none !important;
         }
     </style>
 </head>
