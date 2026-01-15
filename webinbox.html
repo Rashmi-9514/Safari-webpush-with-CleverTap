@@ -11,6 +11,11 @@
         clevertap.account.push({ "id": "886-85W-7Z7Z" });
         clevertap.privacy.push({ optOut: false });
         clevertap.privacy.push({ useIP: true });
+        
+        // Set service worker path for push notifications
+        clevertap.account.push({
+            "CLEVERTAP_SERVICE_WORKER_PATH": "/Safari-webpush-with-CleverTap/clevertap_sw.js"
+        });
 
         (function () {
             var wzrk = document.createElement('script');
@@ -117,7 +122,8 @@
                 "rejectButtonText": "No thanks",
                 "okButtonColor": "#F28046",
                 "hidePoweredByCT": true,
-                "skipDialog": false
+                "skipDialog": false,
+                "serviceWorkerPath": "/Safari-webpush-with-CleverTap/clevertap_sw.js"
             });
 
             button.classList.add('clicked');
