@@ -63,42 +63,16 @@
   <button onclick="askPushPermission()">Push Permission</button>
 
 <script>
-  function askPushPermission() {
-    clevertap.notifications.push({
-      titleText: "Would you like to receive Push Notifications?",
-      bodyText:"We promise to only send you relevant content and give you updates on your transactions",
-      okButtonText: "Sign me up!",
-      rejectButtonText: "No thanks",
-      okButtonColor: "#F28046",
-      askAgainTimeInSeconds: 5,
-      serviceWorkerPath: "/Safari-webpush-with-CleverTap/clevertap_sw.js"
-    });
-  }
-</script>
-<script>
 (function () {
-  var SESSION_KEY = 'ct_notification_tracked';
-  var hasTrackedThisSession = sessionStorage.getItem(SESSION_KEY);
-
   console.log('Initial Notification.permission =', Notification.permission);
 
   function handlePermissionChange(newPerm) {
     console.log('Notification permission is now:', newPerm);
-    
-    if (hasTrackedThisSession) {
-      console.log('Already tracked this session, skipping event push');
-      return;
-    }
-
     if (newPerm === 'granted') {
       console.log('Permission granted — you can send notifications now.');
       clevertap.event.push('Notification enabled');
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      hasTrackedThisSession = true;
-    } else if (newPerm === 'denied') {
+    } else {
       clevertap.event.push('Notification disabled');
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      hasTrackedThisSession = true;
     }
   }
 
@@ -125,7 +99,7 @@
   function startPollingFallback() {
     if (pollIntervalId) return;
     var last = Notification.permission;
-    handlePermissionChange(last);
+    last = Notification.permission;
     pollIntervalId = setInterval(function () {
       var current = Notification.permission;
       if (current !== last) {
@@ -142,6 +116,7 @@
     }
   });
 })();
+  
 </script>
 
 </body>
