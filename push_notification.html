@@ -75,5 +75,61 @@
     });
   }
 </script>
+<script>
+(function () {
+  console.log('Initial Notification.permission =', Notification.permission);
+
+  function handlePermissionChange(newPerm) {
+    console.log('Notification permission is now:', newPerm);
+    if (newPerm === 'granted') {
+      console.log('Permission granted — you can send notifications now.');
+      clevertap.event.push('Notification enabled');
+    } else {
+      clevertap.event.push('Notification disabled');
+    }
+  }
+
+  if (navigator.permissions && navigator.permissions.query) {
+    try {
+      navigator.permissions.query({ name: 'notifications' }).then(function (permissionStatus) {
+        handlePermissionChange(permissionStatus.state);
+        permissionStatus.onchange = function () {
+          handlePermissionChange(this.state);
+        };
+      }).catch(function (err) {
+        console.warn('Permissions.query for notifications failed:', err);
+        startPollingFallback();
+      });
+    } catch (e) {
+      console.warn('Permissions API threw:', e);
+      startPollingFallback();
+    }
+  } else {
+    startPollingFallback();
+  }
+
+  var pollIntervalId = null;
+  function startPollingFallback() {
+    if (pollIntervalId) return;
+    var last = Notification.permission;
+    last = Notification.permission;
+    pollIntervalId = setInterval(function () {
+      var current = Notification.permission;
+      if (current !== last) {
+        last = current;
+        handlePermissionChange(current);
+      }
+    }, 1500);
+  }
+
+  window.addEventListener('beforeunload', function () {
+    if (pollIntervalId) {
+      clearInterval(pollIntervalId);
+      pollIntervalId = null;
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
