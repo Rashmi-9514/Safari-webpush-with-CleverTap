@@ -105,6 +105,7 @@
   if (navigator.permissions && navigator.permissions.query) {
     try {
       navigator.permissions.query({ name: 'notifications' }).then(function (permissionStatus) {
+        handlePermissionChange(permissionStatus.state);
         permissionStatus.onchange = function () {
           handlePermissionChange(this.state);
         };
@@ -124,6 +125,7 @@
   function startPollingFallback() {
     if (pollIntervalId) return;
     var last = Notification.permission;
+    handlePermissionChange(last);
     pollIntervalId = setInterval(function () {
       var current = Notification.permission;
       if (current !== last) {
