@@ -41,7 +41,6 @@
         align-items: center;
         background: #f5f5f5;
       }
-
       button {
         padding: 14px 24px;
         font-size: 16px;
@@ -51,7 +50,6 @@
         border-radius: 6px;
         cursor: pointer;
       }
-
       button:hover {
         opacity: 0.9;
       }
@@ -77,15 +75,33 @@
 
     <script>
       (function () {
+        // Retrieve the last known permission state from local storage
+        // This prevents duplicate events on page reload
+        var lastLoggedPerm = localStorage.getItem('ct_last_perm');
+        
         console.log('Initial Notification.permission =', Notification.permission);
+        console.log('Last Logged Permission =', lastLoggedPerm);
 
         function handlePermissionChange(newPerm) {
-          console.log('Notification permission is now:', newPerm);
-          if (newPerm === 'granted') {
-            console.log('Permission granted — you can send notifications now.');
-            clevertap.event.push('Notification enabled');
+          console.log('Current permission state:', newPerm);
+
+          // ONLY proceed if the state has actually changed from what we last recorded
+          if (newPerm !== lastLoggedPerm) {
+             console.log('State changed or first run. Sending event to CleverTap.');
+             
+             if (newPerm === 'granted') {
+               clevertap.event.push('Notification enabled');
+             } else if (newPerm === 'denied' || newPerm === 'default') {
+               // Only log disabled if it was previously enabled or this is the first explicit check
+               // You can adjust this logic if you want to track "default" differently
+               clevertap.event.push('Notification disabled');
+             }
+
+             // Update the local storage with the new state
+             localStorage.setItem('ct_last_perm', newPerm);
+             lastLoggedPerm = newPerm; 
           } else {
-            clevertap.event.push('Notification disabled');
+             console.log('Permission state is unchanged (' + newPerm + '). No event sent.');
           }
         }
 
@@ -93,7 +109,10 @@
           try {
             navigator.permissions.query({ name: 'notifications' })
               .then(function (permissionStatus) {
+                // Check immediately on load
                 handlePermissionChange(permissionStatus.state);
+                
+                // Listen for future changes
                 permissionStatus.onchange = function () {
                   handlePermissionChange(this.state);
                 };
@@ -115,6 +134,9 @@
         function startPollingFallback() {
           if (pollIntervalId) return;
           var last = Notification.permission;
+          // Run the check once immediately for fallback browsers
+          handlePermissionChange(last);
+
           pollIntervalId = setInterval(function () {
             var current = Notification.permission;
             if (current !== last) {
