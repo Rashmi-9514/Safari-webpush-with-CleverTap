@@ -77,22 +77,34 @@
 </script>
 <script>
 (function () {
+  var SESSION_KEY = 'ct_notification_tracked';
+  var hasTrackedThisSession = sessionStorage.getItem(SESSION_KEY);
+
   console.log('Initial Notification.permission =', Notification.permission);
 
   function handlePermissionChange(newPerm) {
     console.log('Notification permission is now:', newPerm);
+    
+    if (hasTrackedThisSession) {
+      console.log('Already tracked this session, skipping event push');
+      return;
+    }
+
     if (newPerm === 'granted') {
       console.log('Permission granted — you can send notifications now.');
       clevertap.event.push('Notification enabled');
-    } else {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      hasTrackedThisSession = true;
+    } else if (newPerm === 'denied') {
       clevertap.event.push('Notification disabled');
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      hasTrackedThisSession = true;
     }
   }
 
   if (navigator.permissions && navigator.permissions.query) {
     try {
       navigator.permissions.query({ name: 'notifications' }).then(function (permissionStatus) {
-        handlePermissionChange(permissionStatus.state);
         permissionStatus.onchange = function () {
           handlePermissionChange(this.state);
         };
@@ -112,7 +124,6 @@
   function startPollingFallback() {
     if (pollIntervalId) return;
     var last = Notification.permission;
-    last = Notification.permission;
     pollIntervalId = setInterval(function () {
       var current = Notification.permission;
       if (current !== last) {
