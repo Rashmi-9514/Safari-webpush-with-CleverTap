@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CleverTap Push Permission</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CleverTap SDK -->
+  <script type="text/javascript">
+    var clevertap = window.clevertap || {
+      event: [],
+      profile: [],
+      account: [],
+      onUserLogin: [],
+      notifications: [],
+      privacy: []
+    };
+
+    clevertap.account.push({ id: "TEST-98R-R54-5Z6Z" });
+    clevertap.privacy.push({ optOut: false });
+    clevertap.privacy.push({ useIP: false });
+
+    (function () {
+      var wzrk = document.createElement("script");
+      wzrk.type = "text/javascript";
+      wzrk.async = true;
+      wzrk.src =
+        (document.location.protocol === "https:"
+          ? "https://d2r1yp2w7bby2u.cloudfront.net"
+          : "http://static.clevertap.com") + "/js/clevertap.min.js";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(wzrk, s);
+    })();
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: #f5f5f5;
+    }
+
+    button {
+      padding: 14px 24px;
+      font-size: 16px;
+      background-color: #f28046;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="askPushPermission()">Push Permission</button>
+
+  <script>
+  function askPushPermission() {
+    clevertap.notifications.push({
+      titleText: "Would you like to receive Push Notifications?",
+      bodyText:
+        "We promise to only send you relevant content and give you updates on your transactions",
+      okButtonText: "Sign me up!",
+      rejectButtonText: "No thanks",
+      okButtonColor: "#F28046",
+      askAgainTimeInSeconds: 5,
+      serviceWorkerPath: "/Safari-webpush-with-CleverTap/clevertap_sw.js"
+    });
+  }
+</script>
+</body>
+</html>
