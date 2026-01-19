@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CleverTap Push Permission</title>
+  <title>RudderStack + CleverTap Push Permission</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- <!-- CleverTap SDK -->
+  <!-- ================= CleverTap Web SDK ================= -->
   <!-- <script type="text/javascript">
     var clevertap = window.clevertap || {
       event: [],
@@ -16,7 +16,7 @@
       privacy: []
     };
 
-    clevertap.account.push({ id: "TEST-98R-R54-5Z6Z" });
+    clevertap.account.push({ id: "TEST-98R-R54-5Z6Z" }); // replace if needed
     clevertap.privacy.push({ optOut: false });
     clevertap.privacy.push({ useIP: false });
 
@@ -30,58 +30,63 @@
           : "http://static.clevertap.com") + "/js/clevertap.min.js";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(wzrk, s);
-    })(); -->
-  <!-- </script>  -->
-  
-  <script type="text/javascript">
-  !function(){"use strict";window.RudderSnippetVersion="3.2.0";var e="rudderanalytics";window[e]||(window[e]=[])
-  ;var rudderanalytics=window[e];if(Array.isArray(rudderanalytics)){
-  if(true===rudderanalytics.snippetExecuted&&window.console&&console.error){
-  console.error("RudderStack JavaScript SDK snippet included more than once.")}else{rudderanalytics.snippetExecuted=true,
-  window.rudderAnalyticsBuildType="legacy";var sdkBaseUrl="https://cdn.rudderlabs.com";var sdkVersion="v3"
-  ;var sdkFileName="rsa.min.js";var scriptLoadingMode="async"
-  ;var r=["setDefaultInstanceKey","load","ready","page","track","identify","alias","group","reset","setAnonymousId","startSession","endSession","consent","addCustomIntegration"]
-  ;for(var n=0;n<r.length;n++){var t=r[n];rudderanalytics[t]=function(r){return function(){var n
-  ;Array.isArray(window[e])?rudderanalytics.push([r].concat(Array.prototype.slice.call(arguments))):null===(n=window[e][r])||void 0===n||n.apply(window[e],arguments)
-  }}(t)}try{
-  new Function('class Test{field=()=>{};test({prop=[]}={}){return prop?(prop?.property??[...prop]):import("");}}'),
-  window.rudderAnalyticsBuildType="modern"}catch(i){}var d=document.head||document.getElementsByTagName("head")[0]
-  ;var o=document.body||document.getElementsByTagName("body")[0];window.rudderAnalyticsAddScript=function(e,r,n){
-  var t=document.createElement("script");t.src=e,t.setAttribute("data-loader","RS_JS_SDK"),r&&n&&t.setAttribute(r,n),
-  "async"===scriptLoadingMode?t.async=true:"defer"===scriptLoadingMode&&(t.defer=true),
-  d?d.insertBefore(t,d.firstChild):o.insertBefore(t,o.firstChild)},window.rudderAnalyticsMount=function(){!function(){
-  if("undefined"==typeof globalThis){var e;var r=function getGlobal(){
-  return"undefined"!=typeof self?self:"undefined"!=typeof window?window:null}();r&&Object.defineProperty(r,"globalThis",{
-  value:r,configurable:true})}
-  }(),window.rudderAnalyticsAddScript("".concat(sdkBaseUrl,"/").concat(sdkVersion,"/").concat(window.rudderAnalyticsBuildType,"/").concat(sdkFileName),"data-rsa-write-key","38TDLwiwW7MqH6RhxU1xJPijW9x")
-  },
-  "undefined"==typeof Promise||"undefined"==typeof globalThis?window.rudderAnalyticsAddScript("https://polyfill-fastly.io/v3/polyfill.min.js?version=3.111.0&features=Symbol%2CPromise&callback=rudderAnalyticsMount"):window.rudderAnalyticsMount()
-  ;var loadOptions={};rudderanalytics.load("38TDLwiwW7MqH6RhxU1xJPijW9x","https://clevertapof.dataplane.rudderstack.com",loadOptions)}}}();
-</script>
-  <script>
-    // Step 1: Install the SDK - `npm i @rudderstack/analytics-js`
-    // Step 2: Initalize the SDK
-    import { RudderAnalytics } from '@rudderstack/analytics-js';
-    const rudderAnalytics = new RudderAnalytics();
-    rudderAnalytics.load(process.env.38TDLwiwW7MqH6RhxU1xJPijW9x, process.env.https://clevertapof.dataplane.rudderstack.com, {});
-    // Q: How to generate your WRITE_KEY and DATA_PLANE_URL?
-    // A: Create a new JavaScript source at https://app.rudderstack.com
-    export { rudderAnalytics };
-    // Step 3: Call event tracking methods such as `page`, `track`, `identify`, etc. as needed
-    rudderAnalytics.page();
-    // NOTICE: This code works only if you have set up your browser-side code to use `npm` modules. Follow the quickstart guide otherwise.
-    // https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/quickstart/
+    })();
+  </script> -->
 
+  <!-- ================= RudderStack Browser SDK ================= -->
+  <script type="text/javascript">
+  !function(){"use strict";window.RudderSnippetVersion="3.2.0";
+  var e="rudderanalytics";window[e]||(window[e]=[]);
+  var rudderanalytics=window[e];
+  if(Array.isArray(rudderanalytics)){
+    if(true===rudderanalytics.snippetExecuted&&window.console&&console.error){
+      console.error("RudderStack SDK snippet included more than once.");
+    } else {
+      rudderanalytics.snippetExecuted=true;
+      window.rudderAnalyticsBuildType="legacy";
+      var sdkBaseUrl="https://cdn.rudderlabs.com";
+      var sdkVersion="v3";
+      var sdkFileName="rsa.min.js";
+      var scriptLoadingMode="async";
+      var methods=[
+        "setDefaultInstanceKey","load","ready","page","track",
+        "identify","alias","group","reset","setAnonymousId",
+        "startSession","endSession","consent","addCustomIntegration"
+      ];
+      for(var i=0;i<methods.length;i++){
+        var method=methods[i];
+        rudderanalytics[method]=function(methodName){
+          return function(){
+            rudderanalytics.push(
+              [methodName].concat(Array.prototype.slice.call(arguments))
+            );
+          };
+        }(method);
+      }
+      var head=document.head||document.getElementsByTagName("head")[0];
+      var script=document.createElement("script");
+      script.async=true;
+      script.src=sdkBaseUrl+"/"+sdkVersion+"/legacy/"+sdkFileName;
+      script.setAttribute("data-rsa-write-key","38TDLwiwW7MqH6RhxU1xJPijW9x");
+      head.appendChild(script);
+    }
+  }
+  rudderanalytics.load(
+    "38TDLwiwW7MqH6RhxU1xJPijW9x",
+    "https://clevertapof.dataplane.rudderstack.com"
+  );
   </script>
 
   <style>
     body {
       font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       height: 100vh;
       justify-content: center;
       align-items: center;
       background: #f5f5f5;
+      gap: 20px;
     }
 
     button {
@@ -101,36 +106,37 @@
 </head>
 
 <body>
+
   <button onclick="askPushPermission()">Push Permission</button>
-<script> 
-rudderanalytics.page(
-  "Cart",
-  "Cart Viewed", {
-    environment: "production"
-  }, {
-    integrations: {
-      All: false,
-      Amplitude: true
-    }
-  }
-  () => {
-    console.log("Page event successfully submitted to the RudderStack SDK.");
-  }
-);
-</script>
+
+  <!-- ================= RudderStack Page Event ================= -->
   <script>
-  function askPushPermission() {
-    clevertap.notifications.push({
-      titleText: "Would you like to receive Push Notifications?",
-      bodyText:
-        "We promise to only send you relevant content and give you updates on your transactions",
-      okButtonText: "Sign me up!",
-      rejectButtonText: "No thanks",
-      okButtonColor: "#F28046",
-      askAgainTimeInSeconds: 5,
-      serviceWorkerPath: "/Safari-webpush-with-CleverTap/clevertap_sw.js"
-    });
-  }
-</script>
+    rudderanalytics.page(
+      "Cart",
+      "Cart Viewed",
+      { environment: "production" },
+      {},
+      function () {
+        console.log("Page event successfully sent to RudderStack");
+      }
+    );
+  </script>
+
+  <!-- ================= CleverTap Push Permission ================= -->
+  <script>
+    function askPushPermission() {
+      clevertap.notifications.push({
+        titleText: "Would you like to receive Push Notifications?",
+        bodyText:
+          "We promise to only send you relevant content and updates on your transactions",
+        okButtonText: "Sign me up!",
+        rejectButtonText: "No thanks",
+        okButtonColor: "#F28046",
+        askAgainTimeInSeconds: 5,
+        serviceWorkerPath: "/clevertap_sw.js"
+      });
+    }
+  </script>
+
 </body>
 </html>
