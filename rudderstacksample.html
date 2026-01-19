@@ -2,79 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>RudderStack + CleverTap Push Permission</title>
+  <title>RudderStack Sample</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ================= CleverTap Web SDK ================= -->
-  <!-- <script type="text/javascript">
-    var clevertap = window.clevertap || {
-      event: [],
-      profile: [],
-      account: [],
-      onUserLogin: [],
-      notifications: [],
-      privacy: []
-    };
-
-    clevertap.account.push({ id: "TEST-98R-R54-5Z6Z" }); // replace if needed
-    clevertap.privacy.push({ optOut: false });
-    clevertap.privacy.push({ useIP: false });
-
-    (function () {
-      var wzrk = document.createElement("script");
-      wzrk.type = "text/javascript";
-      wzrk.async = true;
-      wzrk.src =
-        (document.location.protocol === "https:"
-          ? "https://d2r1yp2w7bby2u.cloudfront.net"
-          : "http://static.clevertap.com") + "/js/clevertap.min.js";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(wzrk, s);
-    })();
-  </script> -->
-
-  <!-- ================= RudderStack Browser SDK ================= -->
+  <!-- ================= RudderStack Browser SDK (LEGACY ONLY) ================= -->
   <script type="text/javascript">
-  !function(){"use strict";window.RudderSnippetVersion="3.2.0";
-  var e="rudderanalytics";window[e]||(window[e]=[]);
-  var rudderanalytics=window[e];
-  if(Array.isArray(rudderanalytics)){
-    if(true===rudderanalytics.snippetExecuted&&window.console&&console.error){
-      console.error("RudderStack SDK snippet included more than once.");
-    } else {
-      rudderanalytics.snippetExecuted=true;
-      window.rudderAnalyticsBuildType="legacy";
-      var sdkBaseUrl="https://cdn.rudderlabs.com";
-      var sdkVersion="v3";
-      var sdkFileName="rsa.min.js";
-      var scriptLoadingMode="async";
-      var methods=[
-        "setDefaultInstanceKey","load","ready","page","track",
-        "identify","alias","group","reset","setAnonymousId",
-        "startSession","endSession","consent","addCustomIntegration"
+    (function () {
+      window.rudderanalytics = window.rudderanalytics || [];
+      var methods = [
+        "load",
+        "page",
+        "track",
+        "identify",
+        "alias",
+        "group",
+        "reset",
+        "ready"
       ];
-      for(var i=0;i<methods.length;i++){
-        var method=methods[i];
-        rudderanalytics[method]=function(methodName){
-          return function(){
-            rudderanalytics.push(
-              [methodName].concat(Array.prototype.slice.call(arguments))
+
+      for (var i = 0; i < methods.length; i++) {
+        var method = methods[i];
+        window.rudderanalytics[method] = (function (m) {
+          return function () {
+            window.rudderanalytics.push(
+              [m].concat(Array.prototype.slice.call(arguments))
             );
           };
-        }(method);
+        })(method);
       }
-      var head=document.head||document.getElementsByTagName("head")[0];
-      var script=document.createElement("script");
-      script.async=true;
-      script.src=sdkBaseUrl+"/"+sdkVersion+"/legacy/"+sdkFileName;
-      script.setAttribute("data-rsa-write-key","38TDLwiwW7MqH6RhxU1xJPijW9x");
-      head.appendChild(script);
-    }
-  }
-  rudderanalytics.load(
-    "38TDLwiwW7MqH6RhxU1xJPijW9x",
-    "https://clevertapof.dataplane.rudderstack.com"
-  );
+
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = "https://cdn.rudderlabs.com/v3/legacy/rsa.min.js";
+      script.setAttribute(
+        "data-rsa-write-key",
+        "38TDLwiwW7MqH6RhxU1xJPijW9x"
+      );
+
+      document.head.appendChild(script);
+
+      window.rudderanalytics.load(
+        "38TDLwiwW7MqH6RhxU1xJPijW9x",
+        "https://clevertapof.dataplane.rudderstack.com"
+      );
+    })();
   </script>
 
   <style>
@@ -98,43 +69,39 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
-    button:hover {
-      opacity: 0.9;
-    }
   </style>
 </head>
 
 <body>
 
-  <button onclick="askPushPermission()">Push Permission</button>
+  <button onclick="onButtonClick()">Test Button</button>
 
   <!-- ================= RudderStack Page Event ================= -->
   <script>
     rudderanalytics.page(
       "Cart",
       "Cart Viewed",
-      { environment: "production" },
-      {},
+      {
+        environment: "production"
+      },
       function () {
-        console.log("Page event successfully sent to RudderStack");
+        console.log("Page event sent successfully");
       }
     );
   </script>
 
-  <!-- ================= CleverTap Push Permission ================= -->
+  <!-- ================= Button Click Event ================= -->
   <script>
-    function askPushPermission() {
-      clevertap.notifications.push({
-        titleText: "Would you like to receive Push Notifications?",
-        bodyText:
-          "We promise to only send you relevant content and updates on your transactions",
-        okButtonText: "Sign me up!",
-        rejectButtonText: "No thanks",
-        okButtonColor: "#F28046",
-        askAgainTimeInSeconds: 5,
-        serviceWorkerPath: "/clevertap_sw.js"
-      });
+    function onButtonClick() {
+      rudderanalytics.track(
+        "Button Clicked",
+        {
+          button_name: "Test Button"
+        },
+        function () {
+          console.log("Track event sent");
+        }
+      );
     }
   </script>
 
