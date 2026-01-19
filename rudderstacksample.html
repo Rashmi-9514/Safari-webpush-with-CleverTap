@@ -102,7 +102,22 @@
 
 <body>
   <button onclick="askPushPermission()">Push Permission</button>
- 
+<script> 
+rudderanalytics.page(
+  "Cart",
+  "Cart Viewed", {
+    environment: "production"
+  }, {
+    integrations: {
+      All: false,
+      Amplitude: true
+    }
+  }
+  () => {
+    console.log("Page event successfully submitted to the RudderStack SDK.");
+  }
+);
+</script>
   <script>
   function askPushPermission() {
     clevertap.notifications.push({
