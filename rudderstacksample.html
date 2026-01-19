@@ -58,6 +58,21 @@
   "undefined"==typeof Promise||"undefined"==typeof globalThis?window.rudderAnalyticsAddScript("https://polyfill-fastly.io/v3/polyfill.min.js?version=3.111.0&features=Symbol%2CPromise&callback=rudderAnalyticsMount"):window.rudderAnalyticsMount()
   ;var loadOptions={};rudderanalytics.load("38TDLwiwW7MqH6RhxU1xJPijW9x","https://clevertapof.dataplane.rudderstack.com",loadOptions)}}}();
 </script>
+  <script>
+    // Step 1: Install the SDK - `npm i @rudderstack/analytics-js`
+    // Step 2: Initalize the SDK
+    import { RudderAnalytics } from '@rudderstack/analytics-js';
+    const rudderAnalytics = new RudderAnalytics();
+    rudderAnalytics.load(process.env.38TDLwiwW7MqH6RhxU1xJPijW9x, process.env.https://clevertapof.dataplane.rudderstack.com, {});
+    // Q: How to generate your WRITE_KEY and DATA_PLANE_URL?
+    // A: Create a new JavaScript source at https://app.rudderstack.com
+    export { rudderAnalytics };
+    // Step 3: Call event tracking methods such as `page`, `track`, `identify`, etc. as needed
+    rudderAnalytics.page();
+    // NOTICE: This code works only if you have set up your browser-side code to use `npm` modules. Follow the quickstart guide otherwise.
+    // https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/quickstart/
+
+  </script>
 
   <style>
     body {
@@ -87,7 +102,7 @@
 
 <body>
   <button onclick="askPushPermission()">Push Permission</button>
-
+ 
   <script>
   function askPushPermission() {
     clevertap.notifications.push({
